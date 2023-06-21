@@ -3,6 +3,7 @@ package com.nor.cs.acl.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.acl.service.api.AdminService;
+import com.nor.cs.acl.service.api.RoleService;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.acl.Admin;
 import com.nor.cs.model.vo.acl.AdminQueryVo;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "用户管理")
 @RequestMapping("/admin/acl/user")
@@ -20,6 +22,8 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
+    @Resource
+    private RoleService roleService;
 
     @GetMapping("{page_num}/{page_size}")
     public Result<IPage<Admin>> getAdminList(@PathVariable Long page_num,
@@ -74,5 +78,18 @@ public class AdminController {
         } else {
             return Result.fail();
         }
+    }
+
+    @GetMapping("toAssign/{adminId}")
+    public Result getAdminRoleInfo(@PathVariable Long adminId) {
+        Map<String, List> map = roleService.getAdminRolesById(adminId);
+        return Result.successWithData(map);
+    }
+
+    @PostMapping("doAssign")
+    public Result assignRoleToAdmin(@RequestParam Long adminId,
+                                    @RequestParam Long[] roleId) {
+        roleService.assignRoleToAdminById(adminId,roleId);
+        return Result.successWithOutData();
     }
 }
