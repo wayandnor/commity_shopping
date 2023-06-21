@@ -7,10 +7,11 @@ import com.nor.cs.common.result.Result;
 import com.nor.cs.model.acl.Role;
 import com.nor.cs.model.vo.acl.RoleQueryVo;
 import io.swagger.annotations.Api;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+
 @Api(tags = "角色管理")
 @RestController
 @RequestMapping("/admin/acl/role")
@@ -19,8 +20,8 @@ public class RoleController {
     @Resource
     private RoleService roleService;
 
-    @GetMapping("{page_num}/{page_size}")
-    public Result getAdminPage(@PathVariable Long page_num,
+    @GetMapping("/{page_num}/{page_size}")
+    public Result<IPage<Role>> getRolePage(@PathVariable Long page_num,
                                @PathVariable Long page_size,
                                RoleQueryVo roleQueryVo) {
         Page<Role> rolePage = new Page<>(page_num, page_size);
@@ -28,5 +29,43 @@ public class RoleController {
         System.out.println(page_size);
         IPage<Role> page = roleService.queryRolePage(rolePage,roleQueryVo);
         return Result.successWithData(page);
+    }
+    
+    @GetMapping("/{id}")
+    public Result<Role> getRoleById(@PathVariable Long id) {
+        Role role = roleService.getById(id);
+        return Result.successWithData(role);
+    }
+    
+    @PutMapping
+    public Result updateRoleById(@RequestBody Role role){
+        boolean isSuccess = roleService.updateById(role);
+        if (isSuccess) {
+            return Result.successWithOutData();
+        }else {
+            return Result.fail();
+        }
+    }
+    
+    @PostMapping
+    public Result createRole(@RequestBody Role role) {
+        boolean success = roleService.save(role);
+        if (success) {
+            return Result.successWithOutData();
+        }else {
+            return Result.fail();
+        }
+    }
+    
+    @DeleteMapping("/{id}")
+    public Result deleteRoleById(@PathVariable Long id) {
+        roleService.removeById(id);
+        return Result.successWithOutData();
+    }
+    
+    @DeleteMapping("/batchRemove")
+    public Result batchDeleteRole(@RequestBody List<Long> ids) {
+        roleService.removeByIds(ids);
+        return Result.successWithOutData();
     }
 }
