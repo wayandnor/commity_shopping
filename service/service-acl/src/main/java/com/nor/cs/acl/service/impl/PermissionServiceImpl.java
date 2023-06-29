@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @version 1.0
@@ -33,6 +34,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         this.findAllChildren(permissionId,toDeleteIdList);
         baseMapper.deleteBatchIds(toDeleteIdList);
     }
+    
 
     private void findAllChildren(Long permissionId, List<Long> toDeleteIdList) {
         LambdaQueryWrapper<Permission> wrapper = new LambdaQueryWrapper<>();

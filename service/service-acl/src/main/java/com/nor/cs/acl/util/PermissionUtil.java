@@ -16,6 +16,7 @@ public class PermissionUtil {
         List<Permission> permissionTree = new ArrayList<>();
         for (Permission permission : allPermissions) {
             if (permission.getPid() == 0) {
+                permission.setLevel(1);
                 permissionTree.add(permission);
             }
         }
@@ -28,6 +29,7 @@ public class PermissionUtil {
 
     private static void findPermissionChildren(Permission parentPermission, List<Permission> allPermissions) {
         Long parentId = parentPermission.getId();
+        Integer parentLevel = parentPermission.getLevel();
         List<Permission> children = parentPermission.getChildren();
         if (children == null) {
             children = new ArrayList<>();
@@ -36,6 +38,7 @@ public class PermissionUtil {
 
         for (Permission permission : allPermissions) {
             if (parentId == permission.getPid()) {
+                permission.setLevel(parentLevel + 1);
                 children.add(permission);
                 findPermissionChildren(permission, allPermissions);
             }
