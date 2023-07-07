@@ -3,26 +3,26 @@ package com.nor.cs.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nor.cs.model.product.SkuAttrValue;
 import com.nor.cs.model.product.SkuImage;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.product.SkuPoster;
 import com.nor.cs.model.vo.product.SkuInfoQueryVo;
 import com.nor.cs.model.vo.product.SkuInfoVo;
+import com.nor.cs.product.consts.SkuCheckStatusConst;
+import com.nor.cs.product.consts.SkuPublishStatusConst;
 import com.nor.cs.product.mapper.SkuInfoMapper;
 import com.nor.cs.product.service.SkuAttrValueService;
 import com.nor.cs.product.service.SkuImageService;
 import com.nor.cs.product.service.SkuInfoService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nor.cs.product.service.SkuPosterService;
-import jodd.util.CollectionUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -92,5 +92,90 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
             skuAttrValueService.saveBatch(skuAttrValueList);
         }
 
+    }
+
+    @Override
+    public SkuInfoVo getSkuInfoVoById(Long id) {
+        SkuInfo skuInfo = baseMapper.selectById(id);
+        List<SkuImage> skuImageList = skuImageService.getImageListById(id);
+        List<SkuPoster> skuPosterList = skuPosterService.getPosterListById(id);
+        List<SkuAttrValue> skuAttrValueList = skuAttrValueService.getAttrValueById(id);
+        SkuInfoVo skuInfoVo = new SkuInfoVo();
+        BeanUtils.copyProperties(skuInfo, skuInfoVo);
+        skuInfoVo.setSkuImagesList(skuImageList);
+        skuInfoVo.setSkuPosterList(skuPosterList);
+        skuInfoVo.setSkuAttrValueList(skuAttrValueList);
+        return skuInfoVo;
+    }
+
+    @Override
+    @Transactional
+    public void updateSkuInfo(SkuInfoVo skuInfoVo) {
+        SkuInfo skuInfo = new SkuInfo();
+        BeanUtils.copyProperties(skuInfoVo, skuInfo);
+        baseMapper.updateById(skuInfo);
+
+        Long id = skuInfoVo.getId();
+
+        skuAttrValueService.remove(new LambdaQueryWrapper<SkuAttrValue>().eq(SkuAttrValue::getSkuId, id));
+        List<SkuAttrValue> skuAttrValueList = skuInfoVo.getSkuAttrValueList();
+        if (!CollectionUtils.isEmpty(skuAttrValueList)) {
+            for (SkuAttrValue skuAttrValue : skuAttrValueList) {
+                skuAttrValue.setSkuId(id);
+            }
+            skuAttrValueService.saveBatch(skuAttrValueList);
+        }
+
+        skuImageService.remove(new LambdaQueryWrapper<SkuImage>().eq(SkuImage::getSkuId, id));
+        List<SkuImage> skuImagesList = skuInfoVo.getSkuImagesList();
+        if (!CollectionUtils.isEmpty(skuImagesList)) {
+            for (SkuImage skuImage : skuImagesList) {
+                skuImage.setSkuId(id);
+            }
+            skuImageService.saveBatch(skuImagesList);
+        }
+
+        skuPosterService.remove(new LambdaQueryWrapper<SkuPoster>().eq(SkuPoster::getSkuId, id));
+        List<SkuPoster> skuPosterList = skuInfoVo.getSkuPosterList();
+        if (!CollectionUtils.isEmpty(skuPosterList)) {
+            for (SkuPoster skuPoster : skuPosterList) {
+                skuPoster.setSkuId(id);
+            }
+            skuPosterService.saveBatch(skuPosterList);
+        }
+    }
+
+
+    @Override
+    public boolean updateSkuPublishStatus(Long id, Integer status) {
+        SkuInfo skuInfo = baseMapper.selectById(id);
+        if (status.equals(SkuPublishStatusConst.ON_SELL.getStatus())) {
+            if (skuInfo.getPublishStatus().equals(SkuPublishStatusConst.UNSHELVED.getStatus())) {
+                skuInfo.setPublishStatus(SkuPublishStatusConst.ON_SELL.getStatus());
+                baseMapper.updateById(skuInfo);
+                return true;
+            }
+        } else if (status.equals(SkuPublishStatusConst.UNSHELVED.getStatus())) {
+            if (skuInfo.getPublishStatus().equals(SkuPublishStatusConst.ON_SELL.getStatus())) {
+                skuInfo.setPublishStatus(SkuPublishStatusConst.UNSHELVED.getStatus());
+                baseMapper.updateById(skuInfo);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void updateCheckSkuStatus(Long id, Integer status) {
+        SkuInfo skuInfo = baseMapper.selectById(id);
+        skuInfo.setCheckStatus(SkuCheckStatusConst.CHECKED.getCheckStatus());
+        baseMapper.updateById(skuInfo);
+    }
+
+    @Override
+    public void updateSkuNewExclusive(Long id, Integer status) {
+        SkuInfo skuInfo = baseMapper.selectById(id);
+        skuInfo.setIsNewPerson(status);
+        baseMapper.updateById(skuInfo);
     }
 }

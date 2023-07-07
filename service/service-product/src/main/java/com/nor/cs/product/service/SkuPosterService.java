@@ -3,6 +3,8 @@ package com.nor.cs.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nor.cs.model.product.SkuPoster;
 
+import java.util.List;
+
 /**
  * <p>
  * 商品海报表 服务类
@@ -13,4 +15,5 @@ import com.nor.cs.model.product.SkuPoster;
  */
 public interface SkuPosterService extends IService<SkuPoster> {
 
+    List<SkuPoster> getPosterListById(Long id);
 }

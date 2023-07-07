@@ -1,5 +1,5 @@
 server:
-  port: 8202
+  port: 8203
 
 mybatis-plus:
   configuration:
@@ -15,3 +15,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+    
+huawei-cloud:
+  bucket-name: "community-shopping"

@@ -26,7 +26,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public IPage<Category> pageByKeyword(Page<Category> pageParam, CategoryQueryVo categoryQueryVo) {
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(Category::getName,categoryQueryVo.getKeyword());
+        if (categoryQueryVo.getKeyword() != null) {
+            wrapper.like(Category::getName, categoryQueryVo.getKeyword());
+        }
         IPage<Category> categoryPage = baseMapper.selectPage(pageParam, wrapper);
         return categoryPage;
     }

@@ -22,10 +22,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/product/category")
+@CrossOrigin
 public class CategoryController {
     @Resource
     private CategoryService categoryService;
-    @GetMapping("{page_num}/{page_size")
+    @GetMapping("{page_num}/{page_size}")
     public Result<IPage<Category>> getCategoryPage(@PathVariable Integer page_num,
                                                    @PathVariable Integer page_size,
                                                    CategoryQueryVo categoryQueryVo) {

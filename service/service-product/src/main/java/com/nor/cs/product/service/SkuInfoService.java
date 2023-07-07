@@ -20,4 +20,14 @@ public interface SkuInfoService extends IService<SkuInfo> {
     IPage<SkuInfo> listByPageAndFilter(Page<SkuInfo> pageParam, SkuInfoQueryVo skuInfoQueryVo);
 
     void saveDetailSkuInfo(SkuInfoVo skuInfoVo);
+
+    SkuInfoVo getSkuInfoVoById(Long id);
+
+    void updateSkuInfo(SkuInfoVo skuInfoVo);
+
+    boolean updateSkuPublishStatus(Long id, Integer status);
+
+    void updateCheckSkuStatus(Long id, Integer status);
+
+    void updateSkuNewExclusive(Long id, Integer status);
 }
