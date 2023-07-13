@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.model.product.AttrGroup;
 import com.nor.cs.model.vo.product.AttrGroupQueryVo;
 import com.nor.cs.product.mapper.AttrGroupMapper;
-import com.nor.cs.product.service.AttrGroupService;
+import com.nor.cs.product.service.api.AttrGroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

@@ -3,8 +3,8 @@ package com.nor.cs.product.innerapi;
 
 import com.nor.cs.model.product.Category;
 import com.nor.cs.model.product.SkuInfo;
-import com.nor.cs.product.service.CategoryService;
-import com.nor.cs.product.service.SkuInfoService;
+import com.nor.cs.product.service.api.CategoryService;
+import com.nor.cs.product.service.api.SkuInfoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

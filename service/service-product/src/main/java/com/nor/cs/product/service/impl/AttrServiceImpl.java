@@ -3,7 +3,7 @@ package com.nor.cs.product.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.nor.cs.model.product.Attr;
 import com.nor.cs.product.mapper.AttrMapper;
-import com.nor.cs.product.service.AttrService;
+import com.nor.cs.product.service.api.AttrService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 

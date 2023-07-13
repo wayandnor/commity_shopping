@@ -8,9 +8,7 @@ import com.nor.cs.common.result.ResultCodeEnum;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.product.SkuInfoQueryVo;
 import com.nor.cs.model.vo.product.SkuInfoVo;
-import com.nor.cs.product.service.SkuInfoService;
-import io.swagger.models.auth.In;
-import lombok.Data;
+import com.nor.cs.product.service.api.SkuInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -7,6 +7,7 @@ import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.search.SkuEs;
 import com.nor.cs.search.repository.SkuInfoRepository;
 import com.nor.cs.search.service.api.SkuService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
  * @description:
  * @date 2023/7/8 17:35
  */
+@Service
 public class SkuServiceImpl implements SkuService {
     @Resource
     private SkuInfoRepository skuInfoRepository;

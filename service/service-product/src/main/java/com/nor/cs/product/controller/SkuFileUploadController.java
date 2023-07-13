@@ -1,7 +1,7 @@
 package com.nor.cs.product.controller;
 
 import com.nor.cs.common.result.Result;
-import com.nor.cs.product.service.SkuFileUploadService;
+import com.nor.cs.product.service.api.SkuFileUploadService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -10,13 +10,15 @@ import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.product.SkuPoster;
 import com.nor.cs.model.vo.product.SkuInfoQueryVo;
 import com.nor.cs.model.vo.product.SkuInfoVo;
+import com.nor.cs.mq.constant.MqConst;
+import com.nor.cs.mq.service.RabbitService;
 import com.nor.cs.product.consts.SkuCheckStatusConst;
 import com.nor.cs.product.consts.SkuPublishStatusConst;
 import com.nor.cs.product.mapper.SkuInfoMapper;
-import com.nor.cs.product.service.SkuAttrValueService;
-import com.nor.cs.product.service.SkuImageService;
-import com.nor.cs.product.service.SkuInfoService;
-import com.nor.cs.product.service.SkuPosterService;
+import com.nor.cs.product.service.api.SkuAttrValueService;
+import com.nor.cs.product.service.api.SkuImageService;
+import com.nor.cs.product.service.api.SkuInfoService;
+import com.nor.cs.product.service.api.SkuPosterService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +43,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
     private SkuPosterService skuPosterService;
     @Resource
     private SkuAttrValueService skuAttrValueService;
+    @Resource
+    private RabbitService rabbitService;
 
     @Override
     public IPage<SkuInfo> listByPageAndFilter(Page<SkuInfo> pageParam, SkuInfoQueryVo skuInfoQueryVo) {
@@ -153,12 +157,14 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
             if (skuInfo.getPublishStatus().equals(SkuPublishStatusConst.UNSHELVED.getStatus())) {
                 skuInfo.setPublishStatus(SkuPublishStatusConst.ON_SELL.getStatus());
                 baseMapper.updateById(skuInfo);
+                rabbitService.sendMessage(MqConst.GOODS_EXCHANGE_DIRECT,MqConst.GOODS_ROUTING_PUT_ON_SALE, id);
                 return true;
             }
         } else if (status.equals(SkuPublishStatusConst.UNSHELVED.getStatus())) {
             if (skuInfo.getPublishStatus().equals(SkuPublishStatusConst.ON_SELL.getStatus())) {
                 skuInfo.setPublishStatus(SkuPublishStatusConst.UNSHELVED.getStatus());
                 baseMapper.updateById(skuInfo);
+                rabbitService.sendMessage(MqConst.GOODS_EXCHANGE_DIRECT,MqConst.GOODS_ROUTING_UNSHELVE,id);
                 return true;
             }
         }

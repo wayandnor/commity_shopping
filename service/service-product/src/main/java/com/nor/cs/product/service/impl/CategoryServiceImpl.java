@@ -6,11 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.model.product.Category;
 import com.nor.cs.model.vo.product.CategoryQueryVo;
 import com.nor.cs.product.mapper.CategoryMapper;
-import com.nor.cs.product.service.CategoryService;
+import com.nor.cs.product.service.api.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-
-import java.util.Locale;
 
 /**
  * <p>

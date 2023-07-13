@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.product.Category;
 import com.nor.cs.model.vo.product.CategoryQueryVo;
-import com.nor.cs.product.service.CategoryService;
+import com.nor.cs.product.service.api.CategoryService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

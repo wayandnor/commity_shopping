@@ -6,8 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.product.AttrGroup;
 import com.nor.cs.model.vo.product.AttrGroupQueryVo;
-import com.nor.cs.product.service.AttrGroupService;
-import com.nor.cs.product.service.AttrService;
+import com.nor.cs.product.service.api.AttrGroupService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

@@ -3,8 +3,7 @@ package com.nor.cs.product.controller;
 
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.product.Attr;
-import com.nor.cs.product.service.AttrService;
-import org.apache.logging.log4j.message.ReusableMessage;
+import com.nor.cs.product.service.api.AttrService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

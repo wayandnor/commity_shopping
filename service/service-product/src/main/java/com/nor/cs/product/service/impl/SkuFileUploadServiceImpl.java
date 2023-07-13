@@ -1,6 +1,6 @@
 package com.nor.cs.product.service.impl;
 
-import com.nor.cs.product.service.SkuFileUploadService;
+import com.nor.cs.product.service.api.SkuFileUploadService;
 import com.obs.services.ObsClient;
 import com.obs.services.model.PutObjectRequest;
 import com.obs.services.model.PutObjectResult;

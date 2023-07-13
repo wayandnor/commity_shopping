@@ -2,7 +2,7 @@ package com.nor.cs.product.service.impl;
 
 import com.nor.cs.model.product.SkuStockHistory;
 import com.nor.cs.product.mapper.SkuStockHistoryMapper;
-import com.nor.cs.product.service.SkuStockHistoryService;
+import com.nor.cs.product.service.api.SkuStockHistoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
