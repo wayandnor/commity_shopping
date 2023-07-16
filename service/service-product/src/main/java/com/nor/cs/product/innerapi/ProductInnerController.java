@@ -5,12 +5,10 @@ import com.nor.cs.model.product.Category;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.product.service.api.CategoryService;
 import com.nor.cs.product.service.api.SkuInfoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/product/inner")
@@ -31,5 +29,22 @@ public class ProductInnerController {
         SkuInfo skuinfo = skuInfoService.getById(skuId);
         return skuinfo;
     }
+    
+    @PostMapping("skuInfoList")
+    public List<SkuInfo> querySkuInfoList(@RequestBody List<Long> skuIdList) {
+        List<SkuInfo> skuInfos = skuInfoService.listByIds(skuIdList);
+        return skuInfos;
+    }
+    
+    @GetMapping("{keyword}")
+    public List<SkuInfo> querySkuInfoByKeyword(@PathVariable String keyword) {
+        List<SkuInfo> skuInfos = skuInfoService.querySkuInfoByKeyword(keyword);
+        return skuInfos;
+    }
 
+    @PostMapping("categoryList")
+    public List<Category> queryCategoryList(@RequestBody List<Long> skuIdList) {
+        List<Category> categoryList = categoryService.listByIds(skuIdList);
+        return categoryList;
+    }
 }

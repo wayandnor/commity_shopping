@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequestMapping("admin/product")
 public class SkuFileUploadController {
     @Resource

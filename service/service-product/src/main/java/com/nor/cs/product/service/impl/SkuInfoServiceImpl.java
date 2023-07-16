@@ -1,6 +1,7 @@
 package com.nor.cs.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectList;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -183,5 +184,13 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo> impl
         SkuInfo skuInfo = baseMapper.selectById(id);
         skuInfo.setIsNewPerson(status);
         baseMapper.updateById(skuInfo);
+    }
+
+    @Override
+    public List<SkuInfo> querySkuInfoByKeyword(String keyword) {
+        List<SkuInfo> skuInfos = baseMapper.selectList(
+                new LambdaQueryWrapper<SkuInfo>().like(SkuInfo::getSkuName, keyword)
+        );
+        return skuInfos;
     }
 }

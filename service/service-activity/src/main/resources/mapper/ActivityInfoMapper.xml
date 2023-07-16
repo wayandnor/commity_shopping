@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nor.cs.activity.mapper.ActivityInfoMapper">
+
+    <select id="selectSkuIdInActivity" resultType="Long">
+        SELECT ak.sku_id
+        FROM activity_info ai
+        INNER JOIN
+        activity_sku ak ON ai.id = ak.activity_id
+        <where>
+            <if test="skuIdList != null">
+                AND ak.sku_id IN 
+                <foreach collection="skuIdList" open="(" separator="," close=")" item="item">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        AND now() BETWEEN ai.start_time AND ai.end_time
+    </select>
+</mapper>

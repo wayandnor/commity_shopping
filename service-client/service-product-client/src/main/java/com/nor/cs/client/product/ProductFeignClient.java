@@ -6,6 +6,8 @@ import com.nor.cs.model.product.SkuInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -16,4 +18,13 @@ public interface ProductFeignClient {
 
     @GetMapping("sku/{skuId}")
     SkuInfo getSkuInfoBySkuId(@PathVariable Long skuId);
+
+    @PostMapping("skuInfoList")
+    List<SkuInfo> querySkuInfoList(@RequestBody List<Long> skuIdList);
+
+    @GetMapping("{keyword}")
+    List<SkuInfo> querySkuInfoByKeyword(@PathVariable String keyword);
+
+    @PostMapping("categoryList")
+    public List<Category> queryCategoryList(@RequestBody List<Long> skuIdList);
 }

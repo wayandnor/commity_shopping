@@ -10,7 +10,7 @@ import java.util.Map;
 @Api
 @RestController
 @RequestMapping("/admin/acl/index")
-@CrossOrigin
+//@CrossOrigin
 public class IndexController {
     @PostMapping("/login")
     public Result<Map<String, String>> login() {

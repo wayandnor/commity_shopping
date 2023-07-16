@@ -14,8 +14,6 @@ import java.math.BigDecimal;
 @TableName("sku_info")
 public class SkuInfo extends BaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
 	@ApiModelProperty(value = "分类id")
 	@TableField("category_id")
 	private Long categoryId;

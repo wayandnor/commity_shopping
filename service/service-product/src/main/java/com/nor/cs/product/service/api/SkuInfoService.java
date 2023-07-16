@@ -7,6 +7,8 @@ import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.product.SkuInfoQueryVo;
 import com.nor.cs.model.vo.product.SkuInfoVo;
 
+import java.util.List;
+
 /**
  * <p>
  * sku信息 服务类
@@ -30,4 +32,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     void updateCheckSkuStatus(Long id, Integer status);
 
     void updateSkuNewExclusive(Long id, Integer status);
+
+    List<SkuInfo> querySkuInfoByKeyword(String keyword);
 }

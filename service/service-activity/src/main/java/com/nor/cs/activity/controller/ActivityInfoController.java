@@ -6,10 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nor.cs.activity.service.api.ActivityInfoService;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.activity.ActivityInfo;
+import com.nor.cs.model.product.SkuInfo;
+import com.nor.cs.model.vo.activity.ActivityRuleVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,6 +24,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/activity/activityInfo")
+//@CrossOrigin
 public class ActivityInfoController {
     @Resource
     private ActivityInfoService activityInfoService;
@@ -61,6 +65,24 @@ public class ActivityInfoController {
     public Result batchRemove(@RequestBody List<Long> ids) {
         activityInfoService.removeByIds(ids);
         return  Result.successWithOutData();
+    }
+    
+    @GetMapping("rules/{activityId}")
+    public Result<Map<String,Object>> getActivityRules(@PathVariable Long activityId) {
+        Map<String, Object> rules = activityInfoService.queryActivityRules(activityId);
+        return Result.successWithData(rules);
+    }
+    
+    @PostMapping("rules")
+    public Result saveActivityRules(@RequestBody ActivityRuleVo activityRuleVo) {
+        activityInfoService.saveActivityRules(activityRuleVo);
+        return Result.successWithOutData();
+    }
+    
+    @GetMapping("findSkuInfoByKeyword/{keyword}")
+    public Result<List<SkuInfo>> findSkuInfoByKeyword(@PathVariable String keyword) {
+        List<SkuInfo> skuInfos = activityInfoService.findSkuInfoByKeyword(keyword);
+        return Result.successWithData(skuInfos);
     }
 }
 

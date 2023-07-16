@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/product/attrGroup")
-@CrossOrigin
+//@CrossOrigin
 public class AttrGroupController {
     @Resource
     private AttrGroupService attrGroupService;

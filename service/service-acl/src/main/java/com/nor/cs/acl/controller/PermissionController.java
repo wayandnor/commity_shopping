@@ -20,7 +20,7 @@ import java.util.Map;
 @Api
 @RestController
 @RequestMapping("/admin/acl/permission")
-@CrossOrigin
+//@CrossOrigin
 public class PermissionController {
     @Resource
     private PermissionService permissionService;
