@@ -26,5 +26,8 @@ public interface ProductFeignClient {
     List<SkuInfo> querySkuInfoByKeyword(@PathVariable String keyword);
 
     @PostMapping("categoryList")
-    public List<Category> queryCategoryList(@RequestBody List<Long> skuIdList);
+     List<Category> queryCategoryList(@RequestBody List<Long> skuIdList);
+
+    @GetMapping("category/all")
+     List<Category> queryAllCategory();
 }

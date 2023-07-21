@@ -34,4 +34,6 @@ public interface SkuInfoService extends IService<SkuInfo> {
     void updateSkuNewExclusive(Long id, Integer status);
 
     List<SkuInfo> querySkuInfoByKeyword(String keyword);
+
+    List<SkuInfo> queryNewExclusiveSkuInfos();
 }

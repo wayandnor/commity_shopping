@@ -1,0 +1,44 @@
+server:
+  port: 8206
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-enums-package: com.nor.cs.enums
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community_shop_user?characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: abc123
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+  redis:
+    host: 192.168.111.101
+    port: 6379
+    database: 0
+    timeout: 1800000
+    password:
+    lettuce:
+      pool:
+        max-active: 20 #最大连接数
+        max-wait: -1    #最大阻塞等待时间(负数表示没限制)
+        max-idle: 5    #最大空闲
+        min-idle: 0     #最小空闲
+    
+huawei-cloud:
+  bucket-name: "community-shopping"
+  
+wx:
+  open:
+    # 小程序微信appId
+    # 小程序微信公众平台appId
+    app_id: wx3564164456beba21
+    # 小程序微信公众平台api秘钥
+    app_secret: 3f25381f1e64879c5d2690d645e58308

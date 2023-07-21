@@ -47,4 +47,16 @@ public class ProductInnerController {
         List<Category> categoryList = categoryService.listByIds(skuIdList);
         return categoryList;
     }
+    
+    @GetMapping(value = "category/all")
+    public List<Category> queryAllCategory() {
+        List<Category> categoryList = categoryService.list();
+        return categoryList;
+    }
+    
+    @GetMapping("new-exclusive/list")
+    public List<SkuInfo> queryNewExclusiveSkuInfoList() {
+        List<SkuInfo> skuInfos = skuInfoService.queryNewExclusiveSkuInfos();
+        return skuInfos;
+    }
 }
