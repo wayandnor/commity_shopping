@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(value = "service-product",path = "/api/product/inner")
+@FeignClient(value = "service-product", path = "/api/product/inner")
 public interface ProductFeignClient {
     @GetMapping("category/{categoryId}")
     Category getCategoryByCategoryId(@PathVariable Long categoryId);
@@ -26,8 +26,11 @@ public interface ProductFeignClient {
     List<SkuInfo> querySkuInfoByKeyword(@PathVariable String keyword);
 
     @PostMapping("categoryList")
-     List<Category> queryCategoryList(@RequestBody List<Long> skuIdList);
+    List<Category> queryCategoryList(@RequestBody List<Long> skuIdList);
 
     @GetMapping("category/all")
-     List<Category> queryAllCategory();
+    List<Category> queryAllCategory();
+
+    @GetMapping("new-exclusive/list")
+    List<SkuInfo> queryNewExclusiveSkuInfoList();
 }

@@ -2,6 +2,7 @@ package com.nor.cs.activity.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nor.cs.model.activity.ActivityInfo;
+import com.nor.cs.model.activity.ActivityRule;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -16,5 +17,7 @@ import java.util.List;
  */
 public interface ActivityInfoMapper extends BaseMapper<ActivityInfo> {
 
-    List<Long> selectSkuIdInActivity(@Param("skuIdList") List<Long> idList);
+    List<Long> selectSkuIdInActivity(@Param("skuIdList") List<Long> skuIdList);
+
+    List<ActivityRule> selectActivityRule(@Param("skuId") Long skuId);
 }

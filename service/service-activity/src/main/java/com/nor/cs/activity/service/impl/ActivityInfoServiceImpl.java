@@ -17,6 +17,7 @@ import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.activity.ActivityRuleVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -118,5 +119,43 @@ public class ActivityInfoServiceImpl extends ServiceImpl<ActivityInfoMapper, Act
             }
         }
         return resultList;
+    }
+
+    @Override
+    public Map<Long, List<String>> getActitvity(List<Long> skuIdList) {
+        Map<Long, List<String>> result = new HashMap<>();
+        skuIdList.forEach(skuId -> {
+            List<ActivityRule> activityRuleList = baseMapper.selectActivityRule(skuId);
+            if (!CollectionUtils.isEmpty(activityRuleList)) {
+                activityRuleList.forEach(rule -> {
+                    rule.setRuleDesc(this.getRuleDesc(rule));
+                });
+                List<String> ruleString = activityRuleList.stream().map(ActivityRule::getRuleDesc).collect(Collectors.toList());
+                result.put(skuId, ruleString);
+            }
+        });
+        return result;
+    }
+
+
+    private String getRuleDesc(ActivityRule activityRule) {
+        ActivityType activityType = activityRule.getActivityType();
+        StringBuffer ruleDesc = new StringBuffer();
+        if (activityType == ActivityType.FULL_REDUCTION) {
+            ruleDesc
+                    .append("满")
+                    .append(activityRule.getConditionAmount())
+                    .append("元减")
+                    .append(activityRule.getBenefitAmount())
+                    .append("元");
+        } else {
+            ruleDesc
+                    .append("满")
+                    .append(activityRule.getConditionNum())
+                    .append("元打")
+                    .append(activityRule.getBenefitDiscount())
+                    .append("折");
+        }
+        return ruleDesc.toString();
     }
 }
