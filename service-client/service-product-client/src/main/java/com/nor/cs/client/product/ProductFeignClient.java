@@ -3,6 +3,7 @@ package com.nor.cs.client.product;
 
 import com.nor.cs.model.product.Category;
 import com.nor.cs.model.product.SkuInfo;
+import com.nor.cs.model.vo.product.SkuInfoVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,4 +34,7 @@ public interface ProductFeignClient {
 
     @GetMapping("new-exclusive/list")
     List<SkuInfo> queryNewExclusiveSkuInfoList();
+
+    @GetMapping("skuVo/{skuId}")
+    SkuInfoVo getSkuInfoVoById(@PathVariable Long skuId);
 }

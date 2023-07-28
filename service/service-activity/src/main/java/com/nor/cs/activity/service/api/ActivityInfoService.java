@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.nor.cs.model.activity.ActivityInfo;
+import com.nor.cs.model.activity.ActivityRule;
+import com.nor.cs.model.order.CartInfo;
+import com.nor.cs.model.order.CartInfoVo;
+import com.nor.cs.model.order.OrderConfirmVo;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.activity.ActivityRuleVo;
 
@@ -29,4 +33,12 @@ public interface ActivityInfoService extends IService<ActivityInfo> {
     List<SkuInfo> findSkuInfoByKeyword(String keyword);
 
     Map<Long, List<String>> getActitvity(List<Long> skuIdList);
+
+    Map<String, Object> findActivityAndCoupon(Long skuId, Long userId);
+
+    List<ActivityRule> findActivityRuleBySkuId(Long skuId);
+
+    List<CartInfoVo> findCartActivityList(List<CartInfo> cartInfoList);
+
+    OrderConfirmVo findCartActivityAndCoupon(List<CartInfo> cartInfoList, Long userId);
 }

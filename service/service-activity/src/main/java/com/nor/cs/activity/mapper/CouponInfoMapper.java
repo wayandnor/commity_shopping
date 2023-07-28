@@ -2,6 +2,9 @@ package com.nor.cs.activity.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.nor.cs.model.activity.CouponInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.nor.cs.model.activity.CouponInfo;
  */
 public interface CouponInfoMapper extends BaseMapper<CouponInfo> {
 
+    List<CouponInfo> selectCouponInfoList(@Param("skuId")Long skuId, @Param("categoryId") Long categoryId, @Param("userId") Long userId);
 }

@@ -1,5 +1,6 @@
 package com.nor.cs.search.controller;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.search.SkuEs;
@@ -49,5 +50,11 @@ public class SkuSearchInfoController {
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         Page<SkuEs> pageModel = skuService.search(pageable,skuEsQueryVo);
         return Result.successWithData(pageModel.getContent());
+    }
+    
+    @GetMapping("inner/incrHotScore/{skuId}")
+    public Boolean incrHotScore(@PathVariable Long skuId) {
+        skuService.incrHotScore(skuId);
+        return true;
     }
 }

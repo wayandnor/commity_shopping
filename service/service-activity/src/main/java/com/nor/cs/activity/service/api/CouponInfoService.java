@@ -32,4 +32,6 @@ public interface CouponInfoService extends IService<CouponInfo> {
     void batchRemoveByIds(List<Long> ids);
 
     List<CouponInfo> queryCouponByKeyword(String keyword);
+
+    List<CouponInfo> getCouponInfoList(Long skuId, Long userId);
 }

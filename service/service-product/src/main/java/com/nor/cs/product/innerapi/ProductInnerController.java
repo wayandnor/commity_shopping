@@ -3,6 +3,7 @@ package com.nor.cs.product.innerapi;
 
 import com.nor.cs.model.product.Category;
 import com.nor.cs.model.product.SkuInfo;
+import com.nor.cs.model.vo.product.SkuInfoVo;
 import com.nor.cs.product.service.api.CategoryService;
 import com.nor.cs.product.service.api.SkuInfoService;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,11 @@ public class ProductInnerController {
     public List<SkuInfo> queryNewExclusiveSkuInfoList() {
         List<SkuInfo> skuInfos = skuInfoService.queryNewExclusiveSkuInfos();
         return skuInfos;
+    }
+    
+    @GetMapping("skuVo/{skuId}")
+    public SkuInfoVo getSkuInfoVoById(@PathVariable Long skuId){
+        SkuInfoVo skuInfoVoById = skuInfoService.getSkuInfoVoById(skuId);
+        return  skuInfoVoById;
     }
 }

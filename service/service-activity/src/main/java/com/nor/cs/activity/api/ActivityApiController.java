@@ -1,10 +1,10 @@
 package com.nor.cs.activity.api;
 
 import com.nor.cs.activity.service.api.ActivityInfoService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nor.cs.model.order.CartInfo;
+import com.nor.cs.model.order.CartInfoVo;
+import com.nor.cs.model.order.OrderConfirmVo;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -25,5 +25,17 @@ public class ActivityApiController {
     @PostMapping("inner/activity")
     public Map<Long, List<String>> getActivityList(@RequestBody List<Long> skuIdList){
         return activityInfoService.getActitvity(skuIdList);
+    }
+
+    @GetMapping("inner/findActivityAndCoupon/{skuId}/{userId}")
+    public Map<String,Object> findActivityAndCoupon(@PathVariable Long skuId,
+                                                    @PathVariable Long userId) {
+        return activityInfoService.findActivityAndCoupon(skuId,userId);
+    }
+
+    @GetMapping("inner/findCartActivityAndCoupon/{userId}")
+    public OrderConfirmVo findCartActivityAndCoupon(@RequestBody List<CartInfo> cartInfoList,
+                                             @PathVariable Long userId){
+        return activityInfoService.findCartActivityAndCoupon(cartInfoList,userId);
     }
 }

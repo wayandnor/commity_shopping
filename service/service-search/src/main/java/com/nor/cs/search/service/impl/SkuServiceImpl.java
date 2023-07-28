@@ -13,6 +13,7 @@ import com.nor.cs.search.service.api.SkuService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +40,9 @@ public class SkuServiceImpl implements SkuService {
     
     @Resource
     private ActivityFeignClient activityFeignClient;
+    
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Override
     public void addSkuInfo(Long skuId) {
@@ -110,5 +115,19 @@ public class SkuServiceImpl implements SkuService {
             }
         }
         return pageModel;
+    }
+
+    @Override
+    public void incrHotScore(Long skuId) {
+        String key = "hotScore";
+        Double hotScore = redisTemplate.opsForZSet().incrementScore(key, "skuId:" + skuId, 1);
+        //规则
+        if(hotScore != null && hotScore%10==0) {
+            //更新es
+            Optional<SkuEs> optional = skuInfoRepository.findById(skuId);
+            SkuEs skuEs = optional.get();
+            skuEs.setHotScore(Math.round(hotScore));
+            skuInfoRepository.save(skuEs);
+        }
     }
 }

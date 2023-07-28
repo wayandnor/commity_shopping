@@ -146,4 +146,11 @@ public class CouponInfoServiceImpl extends ServiceImpl<CouponInfoMapper, CouponI
         });
         return couponInfos;
     }
+
+    @Override
+    public List<CouponInfo> getCouponInfoList(Long skuId, Long userId) {
+        SkuInfo skuInfo = productFeignClient.getSkuInfoBySkuId(skuId);
+        List<CouponInfo> couponInfos = baseMapper.selectCouponInfoList(skuId, skuInfo.getCategoryId(), userId);
+        return couponInfos;
+    }
 }
