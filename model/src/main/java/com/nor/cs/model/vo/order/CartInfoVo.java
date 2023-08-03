@@ -1,6 +1,7 @@
-package com.nor.cs.model.order;
+package com.nor.cs.model.vo.order;
 
 import com.nor.cs.model.activity.ActivityRule;
+import com.nor.cs.model.order.CartInfo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

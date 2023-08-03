@@ -2,8 +2,6 @@ package com.nor.cs.activity.api;
 
 import com.nor.cs.activity.service.api.ActivityInfoService;
 import com.nor.cs.model.order.CartInfo;
-import com.nor.cs.model.order.CartInfoVo;
-import com.nor.cs.model.order.OrderConfirmVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

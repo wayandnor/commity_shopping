@@ -16,8 +16,6 @@ import com.nor.cs.model.activity.ActivityRule;
 import com.nor.cs.model.activity.ActivitySku;
 import com.nor.cs.model.activity.CouponInfo;
 import com.nor.cs.model.order.CartInfo;
-import com.nor.cs.model.order.CartInfoVo;
-import com.nor.cs.model.order.OrderConfirmVo;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.activity.ActivityRuleVo;
 import org.springframework.stereotype.Service;
@@ -347,7 +345,46 @@ public class ActivityInfoServiceImpl extends ServiceImpl<ActivityInfoMapper, Act
     @Override
     public OrderConfirmVo findCartActivityAndCoupon(List<CartInfo> cartInfoList, Long userId) {
 
-        return null;
+        List<CartInfoVo> cartInfoVoList = this.findCartActivityList(cartInfoList);
+
+        //2 计算参与活动之后金额
+        BigDecimal activityReduceAmount = cartInfoVoList.stream()
+                .filter(cartInfoVo -> cartInfoVo.getActivityRule() != null)
+                .map(cartInfoVo -> cartInfoVo.getActivityRule().getReduceAmount())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        //3 获取购物车可以使用优惠卷列表
+        List<CouponInfo> couponInfoList =
+                couponInfoService.findCartCouponInfo(cartInfoList,userId);
+
+        //4 计算商品使用优惠卷之后金额，一次只能使用一张优惠卷
+        BigDecimal couponReduceAmount = new BigDecimal(0);
+        if(!CollectionUtils.isEmpty(couponInfoList)) {
+            couponReduceAmount = couponInfoList.stream()
+                    .filter(couponInfo -> couponInfo.getIsOptimal().intValue() == 1)
+                    .map(couponInfo -> couponInfo.getAmount())
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        }
+
+        //5 计算没有参与活动，没有使用优惠卷原始金额
+        BigDecimal originalTotalAmount = cartInfoList.stream()
+                .filter(cartInfo -> cartInfo.getIsChecked() == 1)
+                .map(cartInfo -> cartInfo.getCartPrice().multiply(new BigDecimal(cartInfo.getSkuNum())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        //6 最终金额
+        BigDecimal totalAmount =
+                originalTotalAmount.subtract(activityReduceAmount).subtract(couponReduceAmount);
+
+        //7 封装需要数据到OrderConfirmVo,返回
+        OrderConfirmVo orderTradeVo = new OrderConfirmVo();
+        orderTradeVo.setCarInfoVoList(cartInfoVoList);
+        orderTradeVo.setActivityReduceAmount(activityReduceAmount);
+        orderTradeVo.setCouponInfoList(couponInfoList);
+        orderTradeVo.setCouponReduceAmount(couponReduceAmount);
+        orderTradeVo.setOriginalTotalAmount(originalTotalAmount);
+        orderTradeVo.setTotalAmount(totalAmount);
+        return orderTradeVo;
     }
 
     private String getRuleDesc(ActivityRule activityRule) {

@@ -13,6 +13,9 @@ public enum ResultCodeEnum {
     FETCH_ACCESSTOKEN_FAILD(218, "获取accessToken失败"),
     UPDATE_PRODUCT_CHECK_STATUS_FAIL(302, "更新审核状态失败"),
     DATA_ERROR(204, "数据异常"),
+    URL_ENCODE_ERROR( 216, "URL编码失败"),
+    ILLEGAL_REQUEST(205, "非法请求"),
+    ORDER_STOCK_FALL(204, "订单库存锁定失败"),
     SKU_LIMIT_ERROR(230, "购买个数不能大于限购个数");
 
     private ResultCodeEnum(int code, String message) {

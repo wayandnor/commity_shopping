@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class CartInfoServiceImpl implements CartInfoService {
@@ -125,7 +126,50 @@ public class CartInfoServiceImpl implements CartInfoService {
         return result;
     }
 
+    @Override
+    public void checkCart(Long userId, Long skuId, Integer isChecked) {
+        String cartKey = this.getCartKey(userId);
+        BoundHashOperations<String,String,CartInfo> boundHashOperations =
+                redisTemplate.boundHashOps(cartKey);
+        CartInfo cartInfo = boundHashOperations.get(skuId.toString());
+        if(cartInfo != null) {
+            cartInfo.setIsChecked(isChecked);
+            boundHashOperations.put(skuId.toString(),cartInfo);
+            this.setCartKeyExpire(cartKey);
+        }
+    }
+
+    @Override
+    public void checkAllCart(Long userId, Integer isChecked) {
+        String cartKey = this.getCartKey(userId);
+        BoundHashOperations<String,String,CartInfo> boundHashOperations =
+                redisTemplate.boundHashOps(cartKey);
+        List<CartInfo> cartInfoList = boundHashOperations.values();
+        cartInfoList.forEach(cartInfo -> {
+            cartInfo.setIsChecked(isChecked);
+            boundHashOperations.put(cartInfo.getSkuId().toString(),cartInfo);
+        });
+        this.setCartKeyExpire(cartKey);
+    }
+
+    @Override
+    public void batchCheckCart(List<Long> skuIdList, Long userId, Integer isChecked) {
+        String cartKey = this.getCartKey(userId);
+        BoundHashOperations<String,String,CartInfo> boundHashOperations =
+                redisTemplate.boundHashOps(cartKey);
+        skuIdList.forEach(skuId -> {
+            CartInfo cartInfo = boundHashOperations.get(skuId.toString());
+            cartInfo.setIsChecked(isChecked);
+            boundHashOperations.put(cartInfo.getSkuId().toString(),cartInfo);
+        });
+        this.setCartKeyExpire(cartKey);
+    }
+
     private String getCartKey(Long userId) {
         return RedisConst.USER_KEY_PREFIX + userId + RedisConst.USER_CART_KEY_SUFFIX;
+    }
+
+    private void setCartKeyExpire(String key) {
+        redisTemplate.expire(key,RedisConst.USER_CART_EXPIRE, TimeUnit.SECONDS);
     }
 }

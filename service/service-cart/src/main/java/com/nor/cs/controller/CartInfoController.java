@@ -4,7 +4,7 @@ import com.nor.cs.activity.client.ActivityFeignClient;
 import com.nor.cs.common.auth.AuthContextHolder;
 import com.nor.cs.common.result.Result;
 import com.nor.cs.model.order.CartInfo;
-import com.nor.cs.model.order.OrderConfirmVo;
+import com.nor.cs.model.vo.order.OrderConfirmVo;
 import com.nor.cs.service.api.CartInfoService;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,11 +58,33 @@ public class CartInfoController {
 
     @GetMapping("activityCartList")
     public Result activityCartList() {
-        // 获取用户Id
         Long userId = AuthContextHolder.getUserId();
         List<CartInfo> cartInfoList = cartInfoService.getCartList(userId);
 
         OrderConfirmVo orderTradeVo = activityFeignClient.findCartActivityAndCoupon(cartInfoList, userId);
         return Result.successWithData(orderTradeVo);
+    }
+
+    @GetMapping("checkCart/{skuId}/{isChecked}")
+    public Result checkCart(@PathVariable Long skuId,
+                            @PathVariable Integer isChecked) {
+        Long userId = AuthContextHolder.getUserId();
+        cartInfoService.checkCart(userId,skuId,isChecked);
+        return Result.successWithOutData();
+    }
+
+    @GetMapping("checkAllCart/{isChecked}")
+    public Result checkAllCart(@PathVariable Integer isChecked) {
+        Long userId = AuthContextHolder.getUserId();
+        cartInfoService.checkAllCart(userId,isChecked);
+        return Result.successWithOutData();
+    }
+
+    @PostMapping("batchCheckCart/{isChecked}")
+    public Result batchCheckCart(@RequestBody List<Long> skuIdList,
+                                 @PathVariable Integer isChecked) {
+        Long userId = AuthContextHolder.getUserId();
+        cartInfoService.batchCheckCart(skuIdList,userId,isChecked);
+        return Result.successWithOutData();
     }
 }

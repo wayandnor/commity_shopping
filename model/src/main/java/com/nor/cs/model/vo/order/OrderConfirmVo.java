@@ -1,4 +1,4 @@
-package com.nor.cs.model.order;
+package com.nor.cs.model.vo.order;
 
 import com.nor.cs.model.activity.CouponInfo;
 import com.nor.cs.model.vo.user.LeaderAddressVo;

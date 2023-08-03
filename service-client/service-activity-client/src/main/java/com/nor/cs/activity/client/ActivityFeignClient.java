@@ -1,8 +1,7 @@
 package com.nor.cs.activity.client;
 
 import com.nor.cs.model.order.CartInfo;
-import com.nor.cs.model.order.CartInfoVo;
-import com.nor.cs.model.order.OrderConfirmVo;
+import com.nor.cs.model.vo.order.OrderConfirmVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +26,5 @@ public interface ActivityFeignClient {
     
     @GetMapping("inner/findCartActivityAndCoupon/{userId}")
     OrderConfirmVo findCartActivityAndCoupon(@RequestBody List<CartInfo> cartInfoVoList,
-                                                    @PathVariable Long userId);
+                                             @PathVariable Long userId);
 }

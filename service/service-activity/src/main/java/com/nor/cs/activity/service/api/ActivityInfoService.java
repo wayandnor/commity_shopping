@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.nor.cs.model.activity.ActivityInfo;
 import com.nor.cs.model.activity.ActivityRule;
 import com.nor.cs.model.order.CartInfo;
-import com.nor.cs.model.order.CartInfoVo;
-import com.nor.cs.model.order.OrderConfirmVo;
 import com.nor.cs.model.product.SkuInfo;
 import com.nor.cs.model.vo.activity.ActivityRuleVo;
 
